@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.SortedSet;
 
 /** A class used to represent a Playlist */
-class VideoPlaylist {
+class VideoPlaylist{
     private LinkedHashSet<Video> videos = new LinkedHashSet<>();
     private String name;
 
@@ -28,5 +28,22 @@ class VideoPlaylist {
 
     protected HashSet<Video> getVideos(){
         return videos;
+    }
+
+    protected boolean removeVideo(Video video){
+        if (videos.contains(video)){
+            videos.remove(video);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected void clearVideos(){
+        videos.clear();
+    }
+
+    protected boolean isEmpty(){
+        return videos.isEmpty();
     }
 }
