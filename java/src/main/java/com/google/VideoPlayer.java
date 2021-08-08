@@ -1,5 +1,6 @@
 package com.google;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class VideoPlayer {
@@ -212,11 +213,58 @@ public class VideoPlayer {
   }
 
   public void searchVideos(String searchTerm) {
-    System.out.println("searchVideos needs implementation");
+    // Search videos from the library and store them in an arraylist
+    List<Video> searchResult = new ArrayList<>();
+    for (Video video:
+         videoLibrary.getVideos()) {
+      if(video.getTitle().toUpperCase().contains(searchTerm.toUpperCase())) {
+        searchResult.add(video);
+      }
+    }
+    // Sort the arraylist
+    searchResult.sort(new Comparator<Video>() {
+      @Override
+      public int compare(Video video, Video t1) {
+        return video.getTitle().compareToIgnoreCase(t1.getTitle());
+      }
+    });
+    // Display the result
+    displaySearchResult(searchTerm, searchResult);
   }
 
   public void searchVideosWithTag(String videoTag) {
-    System.out.println("searchVideosWithTag needs implementation");
+    // Search videos from the library and store them in an arraylist
+    List<Video> searchResult = new ArrayList<>();
+    for (Video video:
+            videoLibrary.getVideos()) {
+      if(video.getTags().contains(videoTag.toLowerCase())) {
+        searchResult.add(video);
+      }
+    }
+    // Sort the arraylist
+    searchResult.sort((video, t1) -> video.getTitle().compareToIgnoreCase(t1.getTitle()));
+    // Display the result
+    displaySearchResult(videoTag, searchResult);
+  }
+
+  private void displaySearchResult(String videoTag, List<Video> searchResult) {
+    if (searchResult.isEmpty()){
+      System.out.println("No search results for " + videoTag);
+    } else {
+      System.out.println("Here are the results for " + videoTag + ":");
+      for (int i = 0; i < searchResult.size(); i++) {
+        System.out.println((i + 1) + ") " + searchResult.get(i).getTitle() + " (" + searchResult.get(i).getVideoId() + ") " +
+                searchResult.get(i).getTags().toString().replace(",", ""));
+      }
+      // Prompt the user to play a video from the search result
+      System.out.println("Would you like to play any of the above? If yes, specify the number of the video. \nIf your answer " +
+              "is not a valid number, we will assume it's a no.");
+      Scanner scanner = new Scanner(System.in);
+      String input = scanner.nextLine();
+      if (input.matches("[0-9]+") && (Integer.parseInt(input)-1) < searchResult.size()) {
+        playVideo(searchResult.get(Integer.parseInt(input)-1).getVideoId());
+      }
+    }
   }
 
   public void flagVideo(String videoId) {

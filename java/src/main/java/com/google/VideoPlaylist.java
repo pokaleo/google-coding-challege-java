@@ -1,8 +1,8 @@
 package com.google;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.SortedSet;
 
 /** A class used to represent a Playlist */
 class VideoPlaylist{
